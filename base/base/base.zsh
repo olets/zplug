@@ -35,35 +35,18 @@ __zplug::base::base::zpluged()
 
 __zplug::base::base::version_requirement()
 {
-    local -i idx
-    local -a min val
     local a="$1" op="$2" b="$3"
 
-    [[ $a == $b ]] && return 0
-
-    val=("${(s:.:)a}")
-    min=("${(s:.:)b}")
-
     case "$op" in
-        ">")
-            for (( idx=1; idx <= $#val; idx++ ))
-            do
-                if (( val[$idx] > ${min[$idx]:-0} )); then
-                    return 0
-                elif (( val[$idx] < ${min[$idx]:-0} )); then
-                    return 1
-                fi
-            done
+        ">"|"=")
+            if is-at-least "$b" "$a"; then
+                return 0
+            fi
             ;;
         "<")
-            for (( idx=1; idx <= $#val; idx++ ))
-            do
-                if (( val[$idx] < ${min[$idx]:-0} )); then
-                    return 0
-                elif (( val[$idx] > ${min[$idx]:-0} )); then
-                    return 1
-                fi
-            done
+            if ! is-at-least "$b" "$a"; then
+                return 0
+            fi
             ;;
         *)
             ;;

@@ -7,6 +7,7 @@ fpath=(
 "$fpath[@]"
 )
 
+autoload -Uz is-at-least
 autoload -Uz regexp-replace
 autoload -Uz add-zsh-hook
 autoload -Uz colors
